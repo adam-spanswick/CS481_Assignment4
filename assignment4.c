@@ -14,13 +14,14 @@ int turnedAway = 0;
 int passengers = 0;
 int totalTurnedAway = 0;
 int totalPeopleInLine = 0;
+int totalPassengers = 0;
 
 void rideManager(){
+	const time_t start = time(NULL); // Run the program for 60 secs total, where 1 minute = 10 ms
 	struct timespec timeToWait;
 	struct timeval current;
-	int timeInMs = 10;
+	int timeInMs = 100; // Corresponds to .1 seconds 
 	int timeUp;
-	const time_t start = time(NULL); // 600 minute timer (9am to 7pm)
 	time_t current;
 
 	while(difftime(current, start) < 60)
@@ -49,6 +50,7 @@ void rideManager(){
 			peopleInLine += rem;
 			turnedAway = newPeople - rem;
 		}
+		totalPeopleInLine += peopleInLine;
 		totalTurnedAway += turnedAway;
 
 	    // Car Code
@@ -61,6 +63,7 @@ void rideManager(){
 			passengers = MAXPERCAR;
 			peopleInLine = peopleInLine - MAXPERCAR;
 		}
+		totalPassengers += passengers;
 
 		pthread_mutex_lock(&mutex);
 	}
